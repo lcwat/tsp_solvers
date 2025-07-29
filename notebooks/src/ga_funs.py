@@ -1,4 +1,3 @@
-from itertools import permutations
 import random
 import numpy as np
 import pandas as pd
@@ -8,20 +7,15 @@ import matplotlib.pyplot as plt
 
 
 def initial_population(locations_df=pd.DataFrame, start_location=int, n_population=int):
-    # start by creating population of permutations of the locations
-    population_perms = []
-
+    # create a list of the remaining locations in the arrangement
     remaining_locations = [
-        *locations_df[~locations_df.location.isin([start_location])].location]
+        *locations_df[~locations_df.location.isin([start_location])].location
+    ]
 
-    possible_perms = list(permutations(remaining_locations))
-    random_ids = random.sample(range(0, len(possible_perms)), n_population)
-
-    # loop through list of random ids and append to population list
-    for i in random_ids:
-        perm = (start_location,) + possible_perms[i]
-
-        population_perms.append(list(perm))
+    # start by creating population of permutations of the locations
+    population_perms = [
+        [start_location] + [*np.random.permutation(remaining_locations)] for i in range(0, n_population)
+    ]
 
     return population_perms
 

@@ -210,7 +210,7 @@ def arrangement_ga(
     ]
 
     # begin generation loop
-    for i in range(0, n_generations):
+    for gen in range(0, n_generations):
         # assess fitness of this generatino
         fitness_probs = fitness_probabilities(
             population=next_generation, max_deviation=max_deviation)
@@ -272,11 +272,15 @@ def arrangement_ga(
         # shuffle
         random.shuffle(next_generation)
 
+        print("Completed generation", gen)
+
     # return the final generation
     return next_generation
 
 
-def arrangement_pop_summary(population=list, max_deviation=True):
+def arrangement_pop_summary(
+    population=list, polygon=Polygon, max_deviation=True, n_locations=int
+):
     # deviation list
     final_pop_deviations = [
         find_deviation_score(df) for df in population
@@ -293,7 +297,7 @@ def arrangement_pop_summary(population=list, max_deviation=True):
 
     # summary stats before and after ga
     random_pop = initial_location_population(
-        n_population=50, polygon=poly, n_locations=8)
+        n_population=50, polygon=polygon, n_locations=n_locations)
     random_pop_deviations = [
         find_deviation_score(df) for df in random_pop
     ]
